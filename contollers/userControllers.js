@@ -40,3 +40,55 @@ export const register = async (req,res) => {
         console.log(error);
     }
 }
+
+// login /
+
+export const login = async (req,res) => {
+    try{
+        const {email , password} = req.body;
+        if(!email || !password) {
+            return res.status(400).json ({
+                message:"Something is Missing",
+                success:false
+            });
+        };
+        // user details in database
+        let user = await User.findOne({email});
+        if(!user){
+            return res.status(400).json({
+                message:"incorrect email or password",
+                success:"false"
+            })
+
+        };
+        //  check user password matched or not 
+        const isPasswordMatched = await bcrypt.compare(password, user.password);
+        if(!isPasswordMatched){
+            return res.status(400).json({
+                message:"wrong password",
+                success:false
+            });
+        };
+        const tokenData = {
+            userId:user._id
+        }
+        const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
+
+        user = {
+            _id:user._id,
+            name:user.name,
+            email:user.email,
+            role:user.role
+
+        }
+        return res.status(200).cookie("token", token,{maxAge:1*24*60*60*1000 ,httpsOnly:true, sameSite:'strict'}).json({
+            message:`welcome back ${user.name}`,
+            success:true
+        })
+    }catch (error) {
+        console.error( error);
+    
+      
+           
+        }
+    }
