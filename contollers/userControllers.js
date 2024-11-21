@@ -38,6 +38,10 @@ export const register = async (req,res) => {
         })
     } catch (error) {
         console.log(error);
+        return res.status(500).json({
+            message: "Internal Server Error",
+            success: false,
+        });
     }
 }
 
@@ -87,8 +91,24 @@ export const login = async (req,res) => {
         })
     }catch (error) {
         console.error( error);
-    
-      
+        return res.status(500).json({
+            message: "Internal Server Error",
+            success: false,
+        });
            
         }
     }
+
+// logout 
+
+export const logout = async (req,res) =>{
+    try {
+        return res.status(200).cookie("token" , "" ,{maxAge:0}).json({
+            message:"logout succesful",
+            success:true
+        });
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
