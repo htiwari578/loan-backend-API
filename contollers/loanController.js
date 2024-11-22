@@ -48,3 +48,40 @@ export const getAllLoanRequests = async (req,res) => {
         console.log(error);
     }
 }
+
+// approve for loan requestt
+export const approveLoanReq = async (req,res) => {
+    try {
+        // finding loan request by id
+        const loanRequest = await LoanRequest.findById(rq.params.id);
+
+        if(!loanRequest){
+            return res.status(404).json({
+                message:"Loan Request not found",
+                success:false
+            })
+        }
+
+        loanRequest.status='approved';
+        await loanRequest.save();
+
+        return res.status(200).json({
+            message:"Loan resquest approved"
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+
+// Loan History
+
+export const getLoanHistory = async (req,res)=>{
+    try {
+        const loans = await LoanRequest.find({user: req.user.id});
+    } catch (error) {
+        
+    }
+}
