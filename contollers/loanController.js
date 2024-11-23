@@ -82,6 +82,6 @@ export const getLoanHistory = async (req,res)=>{
     try {
         const loans = await LoanRequest.find({user: req.user.id});
     } catch (error) {
-        
+        console.log(error);
     }
 }

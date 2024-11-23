@@ -32,6 +32,6 @@ const loanRequestSchema = new mongoose.Schema({
         
     },
 
-});
+},{timestamps:true});
 
 export const LoanRequest = mongoose.model("LoanApplication", loanRequestSchema);
