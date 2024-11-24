@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from 'dotenv';
 import connectDB from './utils/db.js';
 import userRoute from './routes/userRoutes.js';
+import loanRoute from './routes/loanRoutes.js';
 
 
 
@@ -34,6 +35,7 @@ const PORT = process.env.PORT || 3000;
 
 // creating apis
 app.use("/api/h2/user", userRoute);
+app.use("api/h2/loan", loanRoute);
 
 // Start the server
 app.listen(PORT, () => {

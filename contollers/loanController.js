@@ -81,6 +81,11 @@ export const approveLoanReq = async (req,res) => {
 export const getLoanHistory = async (req,res)=>{
     try {
         const loans = await LoanRequest.find({user: req.user.id});
+
+        return res.status(200).json({
+            success: true,
+            loans,
+        });
     } catch (error) {
         console.log(error);
     }
